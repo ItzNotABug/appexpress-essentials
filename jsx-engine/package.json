@@ -1,0 +1,34 @@
+{
+  "name": "@itznotabug/appexpress-jsx",
+  "version": "0.0.4",
+  "description": "A jsx view engine for AppExpress.",
+  "author": "@itznotabug",
+  "type": "module",
+  "main": "engine.js",
+  "license": "Apache-2.0",
+  "scripts": {
+    "lint": "prettier . --check",
+    "format": "prettier . --write",
+    "tests": "cd tests && node test.js"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "singleQuote": true
+  },
+  "homepage": "https://github.com/itznotabug/appexpress-essentials",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/itznotabug/appexpress-essentials.git"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@babel/core": "^7.24.5",
+    "@babel/preset-react": "^7.24.1",
+    "@babel/preset-typescript": "^7.24.1"
+  },
+  "devDependencies": {
+    "prettier": "3.2.5",
+    "@types/react": "^18.3.2"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@itznotabug/appexpress-nocookies",
+  "version": "0.0.2",
+  "description": "A cookie remover middleware for AppExpress.",
+  "author": "@itznotabug",
+  "type": "module",
+  "main": "nocookies.js",
+  "license": "Apache-2.0",
+  "scripts": {
+    "lint": "prettier . --check",
+    "format": "prettier . --write"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "singleQuote": true
+  },
+  "homepage": "https://github.com/itznotabug/appexpress-essentials",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/itznotabug/appexpress-essentials.git"
+  },
+  "devDependencies": {
+    "prettier": "3.2.5"
+  }
+}
