@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened ]
     paths:
-      - 'minifier/**'
+      - 'middlewares/minifier/**'
 
 jobs:
   build-and-test:
@@ -23,12 +23,12 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./minifier
+        working-directory: ./middlewares/minifier
 
       - name: Run Prettier
         run: npm run lint
-        working-directory: ./minifier
+        working-directory: ./middlewares/minifier
 
       - name: Run Tests
         run: npm run tests
-        working-directory: ./minifier
+        working-directory: ./middlewares/minifier

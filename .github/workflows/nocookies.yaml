@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened ]
     paths:
-      - 'no-cookies/**'
+      - 'middlewares/no-cookies/**'
 
 jobs:
   build-and-test:
@@ -23,8 +23,8 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./no-cookies
+        working-directory: ./middlewares/no-cookies
 
       - name: Run Prettier
         run: npm run lint
-        working-directory: ./no-cookies
+        working-directory: ./middlewares/no-cookies
