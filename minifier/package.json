@@ -1,0 +1,29 @@
+{
+  "name": "@itznotabug/appexpress-minifier",
+  "version": "0.0.2",
+  "description": "A content minifier middleware for AppExpress.",
+  "author": "@itznotabug",
+  "type": "module",
+  "main": "minifier.js",
+  "license": "Apache-2.0",
+  "scripts": {
+    "lint": "prettier . --check",
+    "format": "prettier . --write",
+    "tests": "cd tests && node test.js"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "singleQuote": true
+  },
+  "homepage": "https://github.com/itznotabug/appexpress-essentials",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/itznotabug/appexpress-essentials.git"
+  },
+  "dependencies": {
+    "html-minifier-terser": "^7.2.0"
+  },
+  "devDependencies": {
+    "prettier": "3.2.5"
+  }
+}
