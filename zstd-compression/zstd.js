@@ -17,8 +17,8 @@ export default ({ level = 9 } = {}) => {
          * Compresses data using `zstd` compression.
          *
          * @param {Buffer} buffer - The data buffer to compress.
-         * @param {function(string)} log - Function to log messages.
-         * @param {function(string)} error - Function to handle errors.
+         * @param {function(string)} log - Function to log debug messages.
+         * @param {function(string)} error - Function to log error messages.
          * @returns {Promise<Buffer>} A promise that resolves to the compressed data buffer or the base buffer if an exception occurred.
          */
         compress: async (buffer, log, error) => {
