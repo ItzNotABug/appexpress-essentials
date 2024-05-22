@@ -6,8 +6,6 @@ Content with `content-type` that contains `text/`, `application/json` and `appli
 For detailed HTML minification options, refer to
 the [html-minifier-terser documentation](https://github.com/terser/html-minifier-terser?tab=readme-ov-file#options-quick-reference).
 
-**Note: This module is not yet compatible with the current version of AppExpress (`0.2.4`)!**
-
 ## Installation
 
 Add the middleware like this -

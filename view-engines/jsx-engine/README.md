@@ -25,13 +25,13 @@ const express = new AppExpress();
 
 // configure options if you want.
 // jsx.options({ useStaticMarkup: true });
-express.engine('jsx', jsx.engine); // js, jsx, tsx
+express.engine(['jsx', 'tsx'], jsx.engine); // js, jsx, tsx
 
 // render jsx and pass props
 express.get('/jsx', (req, res) => {
-    res.render('index', { name: 'JohnDoe' });
-    // or `res.render('index.jsx', { name: 'JohnDoe' });` if you have multiple view engines registered.
-    // or `res.render('index.tsx', { name: 'JohnDoe' });` if you have multiple view engines registered.
+  res.render('index', { name: 'JohnDoe' });
+  // or `res.render('index.jsx', { name: 'JohnDoe' });` if you have multiple view engines registered.
+  // or `res.render('index.tsx', { name: 'JohnDoe' });` if you have multiple view engines registered.
 });
 ```
 
