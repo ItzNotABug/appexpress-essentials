@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened ]
     paths:
-      - 'favicon/**'
+      - 'middlewares/favicon/**'
 
 jobs:
   build-and-test:
@@ -23,8 +23,8 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./favicon
+        working-directory: ./middlewares/favicon
 
       - name: Run Prettier
         run: npm run lint
-        working-directory: ./favicon
+        working-directory: ./middlewares/favicon

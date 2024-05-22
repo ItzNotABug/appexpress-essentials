@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened ]
     paths:
-      - 'zstd-compression/**'
+      - 'compression/zstd-compression/**'
 
 jobs:
   build-and-test:
@@ -23,8 +23,8 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./zstd-compression
+        working-directory: ./compression/zstd-compression
 
       - name: Run Prettier
         run: npm run lint
-        working-directory: ./zstd-compression
+        working-directory: ./compression/zstd-compression

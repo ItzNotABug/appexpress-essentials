@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened ]
     paths:
-      - 'jsx-engine/**'
+      - 'view-engines/jsx-engine/**'
 
 jobs:
   build-and-test:
@@ -23,12 +23,12 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./jsx-engine
+        working-directory: ./view-engines/jsx-engine
 
       - name: Run Prettier
         run: npm run lint
-        working-directory: ./jsx-engine
+        working-directory: ./view-engines/jsx-engine
 
       - name: Run Tests
         run: npm run tests
-        working-directory: ./jsx-engine
+        working-directory: ./view-engines/jsx-engine
