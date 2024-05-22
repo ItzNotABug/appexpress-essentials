@@ -4,8 +4,6 @@ This module allows you to serve resources without any cookies.\
 Any `key` in the headers containing the word `cookie` will be stripped from both incoming requests and outgoing
 responses.
 
-**Note: This module is not compatible with the current version of AppExpress (`0.2.4`)!**
-
 ## Installation
 
 Add the middleware like this -

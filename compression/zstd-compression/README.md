@@ -2,8 +2,6 @@
 
 This module allows you to perform `zstd` web compression for compressible resources.
 
-**Note: This module is not yet compatible with the current version of AppExpress (`0.2.4`)!**
-
 ## Installation
 
 Add the middleware like this -
