@@ -1,6 +1,6 @@
 {
   "name": "@itznotabug/appexpress-zstd",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A zstd web compression module for AppExpress.",
   "author": "@itznotabug",
   "type": "module",
