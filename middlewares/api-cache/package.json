@@ -1,0 +1,25 @@
+{
+  "name": "@itznotabug/appexpress-apicache",
+  "version": "0.0.2",
+  "description": "A api caching middleware for AppExpress.",
+  "author": "@itznotabug",
+  "type": "module",
+  "main": "cache.js",
+  "license": "Apache-2.0",
+  "scripts": {
+    "lint": "prettier . --check",
+    "format": "prettier . --write"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "singleQuote": true
+  },
+  "homepage": "https://github.com/itznotabug/appexpress-essentials",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/itznotabug/appexpress-essentials.git"
+  },
+  "devDependencies": {
+    "prettier": "3.2.5"
+  }
+}
