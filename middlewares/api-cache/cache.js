@@ -1,4 +1,4 @@
-// noinspection JSUnresolvedReference
+// noinspection JSUnresolvedReference, JSUnusedGlobalSymbols
 
 import * as memoryCache from './memory.js';
 
@@ -69,7 +69,15 @@ export default {
  * @param {Object} response - The `ResponseHandler` object.
  */
 const serveCacheIfAvailable = (request, response) => {
-    if (isPathExcluded(request)) return;
+    if (isPathExcluded(request)) {
+        response.setHeaders({ CACHE_STATUS_HEADER_KEY: 'EXCLUDED' });
+        return;
+    }
+
+    if (!isRequestValid(request)) {
+        response.setHeaders({ CACHE_STATUS_HEADER_KEY: 'IGNORED' });
+        return;
+    }
 
     const entry = memoryCache.get(request.url);
     if (entry) {
@@ -78,7 +86,7 @@ const serveCacheIfAvailable = (request, response) => {
             if (entry.isInfinite) {
                 headers['cache-control'] = 'public, immutable';
             } else {
-                const maxAge = Math.round(configOptions.expirationTime / 1000);
+                const maxAge = Math.round(entry.timeout / 1000);
                 headers['cache-control'] = `max-age=${maxAge}`;
             }
         }
@@ -105,6 +113,11 @@ const saveCache = (request, interceptor) => {
 
     if (isPathExcluded(request)) {
         headers[CACHE_STATUS_HEADER_KEY] = 'EXCLUDED';
+        return;
+    }
+
+    if (!isRequestValid(request)) {
+        headers[CACHE_STATUS_HEADER_KEY] = 'IGNORED';
         return;
     }
 
@@ -136,4 +149,16 @@ const isPathExcluded = (request) => {
             ? exclude === request.path
             : exclude.test(request.path),
     );
+};
+
+/**
+ * We shouldn't really cache the `PUT`, `POST` or `DELETE` method types.
+ *
+ * @param {Object} request - The `RequestHandler` object.
+ * @returns {boolean} False if the request method is one of the above-mentioned, true otherwise.
+ */
+const isRequestValid = (request) => {
+    const method = request.method;
+    const methodsToExclude = ['put', 'post', 'delete'];
+    return !methodsToExclude.includes(method);
 };

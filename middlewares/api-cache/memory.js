@@ -1,6 +1,7 @@
 /**
  * @typedef {Object} CacheEntry
  * @property {any} value - The cached data.
+ * @property {number} expiry - The expiry timeout without the timer.
  * @property {number} timeout - Timeout identifier for the expiration.
  * @property {boolean} isInfinite - Whether this is an immutable response.
  */
@@ -23,6 +24,7 @@ export const add = (timeout, request, interceptor) => {
     const { body, headers, statusCode } = interceptor;
 
     memoryCache[key] = {
+        expiry: timeout,
         isInfinite: timeout === 0,
         value: { body, headers, statusCode },
         timeout: timeout === 0 ? null : setTimeout(() => remove(key), timeout),
