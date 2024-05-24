@@ -5,9 +5,10 @@ This module allows you to cache API responses for a specified period of time.
 The responses are cached in memory after the first request, up until the function container is removed.\
 You can check for `X-APPEXPRESS-API-CACHE` in the response header, the values will be any one of the below -
 
-1. `HIT` means the response is cached
-2. `MISS` means the response is not cached, probably this is the first request
-3. `EXCLUDED` means the request is excluded for caching response via options or response header
+1. `HIT` - response is cached
+2. `MISS` - response is not cached, probably this is the first request
+3. `EXCLUDED` - the request is excluded for caching response via options or response header
+4. `IGNORED` - the request method is either `PUT`, `POST` or `DELETE` which are never cached
 
 ## Installation
 
@@ -66,8 +67,8 @@ express.get('/user/code', async (req, res) => {
 ```javascript
 express.get('/search/results', async (req, res) => {
   if (apiCache.hasCache(req.url)) {
-      res.empty();
-      return;
+    res.empty();
+    return;
   }
 
   const thirtySeconds = 30 * 1000;
