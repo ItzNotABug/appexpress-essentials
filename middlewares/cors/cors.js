@@ -3,6 +3,13 @@ const configOptions = {
     excludedPaths: [],
     preflightContinue: false,
     optionsSuccessStatus: 204,
+
+    /**
+     * `head` is not supported at the moment!
+     * @see: https://github.com/appwrite/appwrite/pull/8202
+     *
+     * TODO: Remove this jsdoc comment once the linked PR goes through!
+     */
     methods: ['get', 'head', 'put', 'patch', 'post', 'delete'],
 };
 
