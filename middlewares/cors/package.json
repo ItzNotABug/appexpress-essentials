@@ -1,0 +1,25 @@
+{
+  "name": "@itznotabug/appexpress-cors",
+  "version": "0.0.1",
+  "description": "A cors middleware for AppExpress.",
+  "author": "@itznotabug",
+  "type": "module",
+  "main": "cors.js",
+  "license": "Apache-2.0",
+  "scripts": {
+    "lint": "prettier . --check",
+    "format": "prettier . --write"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "singleQuote": true
+  },
+  "homepage": "https://github.com/itznotabug/appexpress-essentials",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/itznotabug/appexpress-essentials.git"
+  },
+  "devDependencies": {
+    "prettier": "3.2.5"
+  }
+}
