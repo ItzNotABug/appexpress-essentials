@@ -59,7 +59,7 @@ const checkAndMinify = async (request, interceptor) => {
     if (excludeMinify) {
         // only numbers and strings allowed currently,
         // should be addressed in the next release ig.
-        excludeMinify = excludeMinify?.toLowerCase() === 'true';
+        excludeMinify = excludeMinify?.toString().toLowerCase() === 'true';
     } else excludeMinify = false;
 
     if (excludeMinify) return;
