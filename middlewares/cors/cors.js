@@ -99,7 +99,7 @@ function handlePreflightRequest(request, response) {
         request.method.toUpperCase() === 'OPTIONS' &&
         configOptions.preflightContinue === false
     ) {
-        response.send('', configOptions.optionsSuccessStatus);
+        response.text('', configOptions.optionsSuccessStatus);
     }
 }
 

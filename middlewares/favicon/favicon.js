@@ -12,32 +12,28 @@ const configOptions = {
 
 const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
 
-export default {
-    /**
-     * Sets options for the favicon middleware.
-     *
-     * @param {Object} options - Configuration options.
-     * @param {string} [options.iconPath='public/favicon.ico'] - Path to the favicon file.
-     * @param {number} [options.maxCacheDays=365] - Number of days to cache the favicon.
-     */
-    options: ({ iconPath = 'public/favicon.ico', maxCacheDays = 365 }) => {
-        configOptions.favIconPath = iconPath;
-        configOptions.favIconMaxCacheDays = maxCacheDays;
-    },
+/**
+ * Middleware to serve the favicon.
+ *
+ * @param {Object} options - Configuration options.
+ * @param {string} [options.iconPath='public/favicon.ico'] - Path to the favicon file.
+ * @param {number} [options.maxCacheDays=365] - Number of days to cache the favicon.
+ */
+export default function (options = {}) {
+    const { iconPath = 'public/favicon.ico', maxCacheDays = 365 } = options;
+    configOptions.favIconPath = iconPath;
+    configOptions.favIconMaxCacheDays = maxCacheDays;
 
-    /**
-     * Middleware to serve the favicon.
-     *
-     * @param {Object} req - The `AppExpressRequest` object.
-     * @param {Object} res - The `AppExpressResponse` object.
-     */
-    middleware: async (req, res) => {
-        const isFavIconPath = req.path === '/favicon.ico';
-        if (!isFavIconPath) return;
+    return {
+        incoming: async (request, response) => {
+            const isFavIconPath = request.path === '/favicon.ico';
+            if (!isFavIconPath) return;
 
-        if (isRequestValid(req, res)) await sendIcon(req, res);
-    },
-};
+            if (isRequestValid(request, response))
+                await sendIcon(request, response);
+        },
+    };
+}
 
 /**
  * Validates the request method, allowing only `GET` and `HEAD`.
@@ -53,7 +49,7 @@ const isRequestValid = (request, response) => {
             allow: 'GET, HEAD, OPTIONS',
         });
 
-        response.send('', request.method === 'options' ? 200 : 405);
+        response.text('', request.method === 'options' ? 200 : 405);
         return false;
     }
 
@@ -80,12 +76,12 @@ const sendIcon = async (request, response) => {
     };
 
     if (isFresh(request.headers, responseHeaders)) {
-        response.send('', 304);
+        response.text('', 304);
         return;
     }
 
     response.setHeaders(responseHeaders);
-    response.send(configOptions.favIconCache, 200, 'image/x-icon');
+    response.binary(configOptions.favIconCache, 200, 'image/x-icon');
 };
 
 /**

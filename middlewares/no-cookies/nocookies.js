@@ -1,26 +1,23 @@
 const configOptions = { excludedPaths: [] };
 
-export default {
-    /**
-     * Sets options for the middleware.
-     *
-     * @param {Object} options - Configuration options.
-     * @param {string} options.excludes=[] - Paths to exclude.
-     * Cookies won't be removed if a path matches any one in excluded paths.
-     */
-    options: ({ excludes = [] }) => {
-        configOptions.excludedPaths = excludes;
-    },
+/**
+ * Middleware to remove cookies.
+ *
+ * @param {Object} options - Configuration options.
+ * @param {string} options.excludes=[] - Paths to exclude.
+ * Cookies won't be removed if a path matches any one in excluded paths.
+ */
+export default function (options = {}) {
+    const { excludes = [] } = options;
 
-    /**
-     * Middleware to remove cookies.
-     */
-    middleware: {
+    configOptions.excludedPaths = excludes;
+
+    return {
         incoming: (request) => checkAndDelete(request),
         outgoing: (request, interceptor) =>
             checkAndDelete(request, interceptor),
-    },
-};
+    };
+}
 
 /**
  * Check for excluded paths and delete the cookies if required.

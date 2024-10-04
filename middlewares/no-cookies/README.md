@@ -22,7 +22,5 @@ import noCookies from '@itznotabug/appexpress-nocookies';
 // setup
 const express = new AppExpress();
 
-// set options
-noCookies.options({ excludes: ['/cookie-allowed'] });
-express.middleware(noCookies.middleware);
+express.middleware(noCookies({ excludes: ['/cookie-allowed'] }));
 ```
