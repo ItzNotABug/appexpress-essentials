@@ -94,7 +94,7 @@ const serveCacheIfAvailable = (request, response) => {
         headers[CACHE_STATUS_HEADER_KEY] = 'HIT';
 
         response.setHeaders(headers);
-        response.send(
+        response.text(
             body,
             statusCode,
             headers['content-type'] ?? 'text/plain',

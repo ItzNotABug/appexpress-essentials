@@ -107,7 +107,7 @@ function handlePreflightRequest(request, response) {
         request.method === 'options' &&
         configOptions.preflightContinue === false
     ) {
-        response.send('', configOptions.optionsSuccessStatus);
+        response.text('', configOptions.optionsSuccessStatus);
     }
 }
 
