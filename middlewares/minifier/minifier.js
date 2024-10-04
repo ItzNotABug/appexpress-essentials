@@ -5,14 +5,12 @@ const configOptions = { excludedPaths: [], htmlMinifierOptions: {} };
 /**
  * Middleware that minifies content.
  *
- * @param {Object} options - Configuration options.
- * @param {(string|RegExp)[]} [options.excludes=[]] - Paths to exclude.
+ * @param {(string|RegExp)[]} [excludes=[]] - Paths to exclude.
  * Supports strings and regular expressions.
  * Minification won't be applied if a path matches any one in excluded paths.
- * @param {Object} [options.htmlOptions={}] - HTML minifier options.
+ * @param {Object} [htmlOptions={}] - HTML minifier options.
  */
-export default function (options = {}) {
-    const { excludes = [], htmlOptions = {} } = options;
+export default function ({ excludes = [], htmlOptions = {} } = {}) {
     configOptions.excludedPaths = excludes;
     configOptions.htmlMinifierOptions = htmlOptions;
 

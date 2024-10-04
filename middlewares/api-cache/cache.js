@@ -15,17 +15,18 @@ const configOptions = {
  *
  * **Note: The responses are cached in memory after the first request, up until the function container is removed.**
  *
- * @param {Object} options - Configuration options.
- * @param {(string|RegExp)[]} [options.excludes=[]] - Paths to exclude.
+ * @param {(string|RegExp)[]} [excludes=[]] - Paths to exclude.
  * Supports strings and regular expressions.
  * Caching won't be applied if a path matches any one in excluded paths.
- * @param {number} [options.timeout=300000] - Cache expiry in milliseconds. Default 5 minutes. Pass `0` for no expiry!
- * @param {boolean} [options.cacheControl=true] - Should add a `cache-control` header. Default true. This header is not overridden if one already exists.
+ * @param {number} [timeout=300000] - Cache expiry in milliseconds. Default 5 minutes. Pass `0` for no expiry!
+ * @param {boolean} [cacheControl=true] - Should add a `cache-control` header. Default true. This header is not overridden if one already exists.
  * @returns {{ hasCache: function, clearCache: function, clearAllCache: function }}
  */
-export default function (options = {}) {
-    const { excludes = [], timeout = 300000, cacheControl = true } = options;
-
+export default function ({
+    excludes = [],
+    timeout = 300000,
+    cacheControl = true,
+} = {}) {
     configOptions.excludedPaths = excludes;
     configOptions.expirationTime = timeout;
     configOptions.cacheControl = cacheControl;

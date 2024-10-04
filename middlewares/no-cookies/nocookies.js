@@ -3,13 +3,10 @@ const configOptions = { excludedPaths: [] };
 /**
  * Middleware to remove cookies.
  *
- * @param {Object} options - Configuration options.
- * @param {string} options.excludes=[] - Paths to exclude.
+ * @param {string} excludes=[] - Paths to exclude.
  * Cookies won't be removed if a path matches any one in excluded paths.
  */
-export default function (options = {}) {
-    const { excludes = [] } = options;
-
+export default function ({ excludes = [] } = {}) {
     configOptions.excludedPaths = excludes;
 
     return {

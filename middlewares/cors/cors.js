@@ -16,27 +16,24 @@ const configOptions = {
 /**
  * Middleware that adds cors headers.
  *
- * @param {Object} options - Configuration options.
- * @param {string} [options.origin='*'] - Specifies which origin(s) may access the resource.
+ * @param {string} [origin='*'] - Specifies which origin(s) may access the resource.
  *        Can be a single string (specific origin or '*') or an array of strings and `RegExp` for flexible matching.
- * @param {(string|RegExp)[]} [options.excludes=[]] - Paths to exclude from applying CORS.
+ * @param {(string|RegExp)[]} [excludes=[]] - Paths to exclude from applying CORS.
  *        Supports strings and regular expressions. CORS headers won't be applied if a path
  *        matches any one in excluded paths.
- * @param {boolean} [options.preFlightContinue=false] - When false, an empty response is sent back.
- * @param {number} [options.optionsSuccessStatus=204] - The HTTP status code to use for successful
+ * @param {boolean} [preFlightContinue=false] - When false, an empty response is sent back.
+ * @param {number} [optionsSuccessStatus=204] - The HTTP status code to use for successful
  *        preflight requests, typically 204 (No Content).
- * @param {string[]} [options.methods=['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']] - Specifies the
+ * @param {string[]} [methods=['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']] - Specifies the
  *        methods allowed when accessing the resource. This is reflected in the 'Access-Control-Allow-Methods' header.
  */
-export default function (options = {}) {
-    const {
-        origin = '*',
-        excludes = [],
-        preFlightContinue = false,
-        optionsSuccessStatus = 204,
-        methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-    } = options;
-
+export default function ({
+    origin = '*',
+    excludes = [],
+    preFlightContinue = false,
+    optionsSuccessStatus = 204,
+    methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+} = {}) {
     configOptions.origin = origin;
     configOptions.excludedPaths = excludes;
     configOptions.preflightContinue = preFlightContinue;
