@@ -1,6 +1,6 @@
 {
   "name": "@itznotabug/appexpress-cors",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A cors middleware for AppExpress.",
   "author": "@itznotabug",
   "type": "module",
