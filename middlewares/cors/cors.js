@@ -10,7 +10,7 @@ const configOptions = {
      *
      * TODO: Remove this jsdoc comment once the linked PR goes through!
      */
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
 };
 
 /**
@@ -28,14 +28,13 @@ const configOptions = {
  * @param {string[]} [options.methods=['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']] - Specifies the
  *        methods allowed when accessing the resource. This is reflected in the 'Access-Control-Allow-Methods' header.
  */
-export default function(options = {}) {
-
+export default function (options = {}) {
     const {
         origin = '*',
         excludes = [],
         preFlightContinue = false,
         optionsSuccessStatus = 204,
-        methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']
+        methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     } = options;
 
     configOptions.origin = origin;
@@ -53,10 +52,9 @@ export default function(options = {}) {
             } catch (err) {
                 error(`Error applying CORS policy: ${err.message}`);
             }
-        }
+        },
     };
 }
-
 
 /**
  * Check if a path is excluded for cors.
@@ -69,7 +67,7 @@ const isPathExcluded = (request) => {
     return excludes.some((exclude) =>
         typeof exclude === 'string'
             ? exclude === request.path
-            : exclude.test(request.path)
+            : exclude.test(request.path),
     );
 };
 
@@ -83,7 +81,7 @@ function applyCorsHeaders(request, response) {
     const headers = {
         ...configureOrigin(request),
         ...configureMethods(),
-        ...configureAllowedHeaders(request)
+        ...configureAllowedHeaders(request),
     };
 
     // noinspection JSUnresolvedReference
@@ -154,7 +152,7 @@ function configureOrigin(request) {
  */
 function configureMethods() {
     return {
-        'Access-Control-Allow-Methods': configOptions.methods.join(',')
+        'Access-Control-Allow-Methods': configOptions.methods.join(','),
     };
 }
 
