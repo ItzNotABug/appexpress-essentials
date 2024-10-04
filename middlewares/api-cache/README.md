@@ -29,13 +29,11 @@ import apiCache from '@itznotabug/appexpress-apicache';
 const express = new AppExpress();
 
 // set options
-apiCache.options(
-  {
+const cacheModule = apiCache({
     excludes: ['/admin'],
     timeout: 1000 * 60 * 5 // 5 minutes, use 0 for no expiry!
-  }
-);
-express.middleware(apiCache.middleware);
+});
+express.middleware(cacheModule);
 ```
 
 ### Excluding a particular request -
@@ -66,7 +64,7 @@ express.get('/user/code', async (req, res) => {
 
 ```javascript
 express.get('/search/results', async (req, res) => {
-  if (apiCache.hasCache(req.url)) {
+  if (cacheModule.hasCache(req.url)) {
     res.empty();
     return;
   }
@@ -83,8 +81,8 @@ express.get('/search/results', async (req, res) => {
 ### Clear a cache for url or all cache
 
 ```javascript
-apiCache.clearCache(url);
+cacheModule.clearCache(url);
 
 // remove all
-apiCache.clearAllCache();
+cacheModule.clearAllCache();
 ```

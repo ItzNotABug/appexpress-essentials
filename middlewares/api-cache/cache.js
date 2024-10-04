@@ -10,57 +10,57 @@ const configOptions = {
     expirationTime: 1000 * 60 * 5,
 };
 
-export default {
-    /**
-     * Sets options for the middleware.
-     *
-     * @param {Object} options - Configuration options.
-     * @param {(string|RegExp)[]} [options.excludes=[]] - Paths to exclude.
-     * Supports strings and regular expressions.
-     * Caching won't be applied if a path matches any one in excluded paths.
-     * @param {number} [options.timeout=300000] - Cache expiry in milliseconds. Default 5 minutes. Pass `0` for no expiry!
-     * @param {boolean} [options.cacheControl=true] - Should add a `cache-control` header. Default true. This header is not overridden if one already exists.
-     */
-    options: ({ excludes = [], timeout = 300000, cacheControl = true }) => {
-        configOptions.excludedPaths = excludes;
-        configOptions.expirationTime = timeout;
-        configOptions.cacheControl = cacheControl;
-    },
+/**
+ * Middleware that serves cached responses.
+ *
+ * **Note: The responses are cached in memory after the first request, up until the function container is removed.**
+ *
+ * @param {Object} options - Configuration options.
+ * @param {(string|RegExp)[]} [options.excludes=[]] - Paths to exclude.
+ * Supports strings and regular expressions.
+ * Caching won't be applied if a path matches any one in excluded paths.
+ * @param {number} [options.timeout=300000] - Cache expiry in milliseconds. Default 5 minutes. Pass `0` for no expiry!
+ * @param {boolean} [options.cacheControl=true] - Should add a `cache-control` header. Default true. This header is not overridden if one already exists.
+ * @returns {{ hasCache: function, clearCache: function, clearAllCache: function }}
+ */
+export default function (options = {}) {
+    const { excludes = [], timeout = 300000, cacheControl = true } = options;
 
-    /**
-     * Middleware that serves cached responses.
-     *
-     * **Note: The responses are cached in memory after the first request, up until the function container is removed.**
-     */
-    middleware: {
+    configOptions.excludedPaths = excludes;
+    configOptions.expirationTime = timeout;
+    configOptions.cacheControl = cacheControl;
+
+    return {
+        /**
+         * Check if a given URL has a cached response in memory.
+         *
+         * @param {string} url - The URL to check for a cache response.
+         * @returns {boolean} True if a memory cache exists for the URL, false otherwise.
+         */
+        hasCache: (url) => !!memoryCache.get(url),
+
+        /**
+         * Clear cache for a given url.
+         *
+         * @param {string} url - The URL for which to remove the cache.
+         */
+        clearCache: (url) => memoryCache.remove(url),
+
+        /**
+         * Clears all cached responses in the memory.
+         */
+        clearAllCache: () => memoryCache.clear(),
+
+        // internal middleware methods.
         incoming: (request, response) => {
             serveCacheIfAvailable(request, response);
         },
+
         outgoing: (request, interceptor) => {
             saveCache(request, interceptor);
         },
-    },
-
-    /**
-     * Check if a given URL has a cached response in memory.
-     *
-     * @param {string} url - The URL to check for a cache response.
-     * @returns {boolean} True if a memory cache exists for the URL, false otherwise.
-     */
-    hasCache: (url) => !!memoryCache.get(url),
-
-    /**
-     * Clear cache for a given url.
-     *
-     * @param {string} url - The URL for which to remove the cache
-     */
-    clearCache: (url) => memoryCache.remove(url),
-
-    /**
-     * Clears all cached responses in the memory.
-     */
-    clearAllCache: () => memoryCache.clear(),
-};
+    };
+}
 
 /**
  * Serve cache from memory if one exists.
