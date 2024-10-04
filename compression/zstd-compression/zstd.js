@@ -3,8 +3,7 @@ import zstd from '@mongodb-js/zstd';
 /**
  * Creates a compression utility object with `zstd` encoding.
  *
- * @param {Object} options - Configuration options for the compressor.
- * @param {number} options.level=9 - Compression level, defaults to 9.
+ * @param {number} level=9 - Compression level, defaults to 9.
  * Levels should be between `1` and `22`. If an invalid level is provided,
  * default level of `9` is used.
  * @returns {Object} A compression utility object containing supported encodings and a compression method.

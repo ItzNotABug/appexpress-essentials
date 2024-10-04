@@ -15,12 +15,13 @@ const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
 /**
  * Middleware to serve the favicon.
  *
- * @param {Object} options - Configuration options.
- * @param {string} [options.iconPath='public/favicon.ico'] - Path to the favicon file.
- * @param {number} [options.maxCacheDays=365] - Number of days to cache the favicon.
+ * @param {string} [iconPath='public/favicon.ico'] - Path to the favicon file.
+ * @param {number} [maxCacheDays=365] - Number of days to cache the favicon.
  */
-export default function (options = {}) {
-    const { iconPath = 'public/favicon.ico', maxCacheDays = 365 } = options;
+export default function ({
+    iconPath = 'public/favicon.ico',
+    maxCacheDays = 365,
+} = {}) {
     configOptions.favIconPath = iconPath;
     configOptions.favIconMaxCacheDays = maxCacheDays;
 
