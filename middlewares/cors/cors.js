@@ -10,48 +10,41 @@ const configOptions = {
      *
      * TODO: Remove this jsdoc comment once the linked PR goes through!
      */
-    methods: ['get', 'head', 'put', 'patch', 'post', 'delete'],
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']
 };
 
-export default {
-    /**
-     * Sets options for the middleware.
-     *
-     * @param {Object} options - Configuration options.
-     * @param {string} [options.origin='*'] - Specifies which origin(s) may access the resource.
-     *        Can be a single string (specific origin or '*') or an array of strings and `RegExp` for flexible matching.
-     * @param {(string|RegExp)[]} [options.excludes=[]] - Paths to exclude from applying CORS.
-     *        Supports strings and regular expressions. CORS headers won't be applied if a path
-     *        matches any one in excluded paths.
-     * @param {boolean} [options.preFlightContinue=false] - When false, an empty response is sent back.
-     * @param {number} [options.optionsSuccessStatus=204] - The HTTP status code to use for successful
-     *        preflight requests, typically 204 (No Content).
-     * @param {string[]} [options.methods=['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']] - Specifies the
-     *        methods allowed when accessing the resource. This is reflected in the 'Access-Control-Allow-Methods' header.
-     */
-    options: ({
+/**
+ * Middleware that adds cors headers.
+ *
+ * @param {Object} options - Configuration options.
+ * @param {string} [options.origin='*'] - Specifies which origin(s) may access the resource.
+ *        Can be a single string (specific origin or '*') or an array of strings and `RegExp` for flexible matching.
+ * @param {(string|RegExp)[]} [options.excludes=[]] - Paths to exclude from applying CORS.
+ *        Supports strings and regular expressions. CORS headers won't be applied if a path
+ *        matches any one in excluded paths.
+ * @param {boolean} [options.preFlightContinue=false] - When false, an empty response is sent back.
+ * @param {number} [options.optionsSuccessStatus=204] - The HTTP status code to use for successful
+ *        preflight requests, typically 204 (No Content).
+ * @param {string[]} [options.methods=['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']] - Specifies the
+ *        methods allowed when accessing the resource. This is reflected in the 'Access-Control-Allow-Methods' header.
+ */
+export default function(options = {}) {
+
+    const {
         origin = '*',
         excludes = [],
         preFlightContinue = false,
         optionsSuccessStatus = 204,
-        methods = ['get', 'head', 'put', 'patch', 'post', 'delete'],
-    }) => {
-        configOptions.origin = origin;
-        configOptions.excludedPaths = excludes;
-        configOptions.preflightContinue = preFlightContinue;
-        configOptions.optionsSuccessStatus = optionsSuccessStatus;
-        configOptions.methods = methods.map((method) => method.toLowerCase());
-    },
+        methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']
+    } = options;
 
-    /**
-     * Middleware that adds cors headers.
-     *
-     * @param {Object} request - The `RequestHandler` object.
-     * @param {Object} response - The `ResponseHandler` object.
-     * @param {function(string)} log - Function to log debug message.
-     * @param {function(string)} error - Function to log error message.
-     */
-    middleware: {
+    configOptions.origin = origin;
+    configOptions.excludedPaths = excludes;
+    configOptions.preflightContinue = preFlightContinue;
+    configOptions.optionsSuccessStatus = optionsSuccessStatus;
+    configOptions.methods = methods.map((method) => method.toUpperCase());
+
+    return {
         incoming: async (request, response, log, error) => {
             try {
                 if (isPathExcluded(request)) return;
@@ -60,9 +53,10 @@ export default {
             } catch (err) {
                 error(`Error applying CORS policy: ${err.message}`);
             }
-        },
-    },
-};
+        }
+    };
+}
+
 
 /**
  * Check if a path is excluded for cors.
@@ -75,7 +69,7 @@ const isPathExcluded = (request) => {
     return excludes.some((exclude) =>
         typeof exclude === 'string'
             ? exclude === request.path
-            : exclude.test(request.path),
+            : exclude.test(request.path)
     );
 };
 
@@ -89,7 +83,7 @@ function applyCorsHeaders(request, response) {
     const headers = {
         ...configureOrigin(request),
         ...configureMethods(),
-        ...configureAllowedHeaders(request),
+        ...configureAllowedHeaders(request)
     };
 
     // noinspection JSUnresolvedReference
@@ -104,7 +98,7 @@ function applyCorsHeaders(request, response) {
  */
 function handlePreflightRequest(request, response) {
     if (
-        request.method === 'options' &&
+        request.method.toUpperCase() === 'OPTIONS' &&
         configOptions.preflightContinue === false
     ) {
         response.send('', configOptions.optionsSuccessStatus);
@@ -143,7 +137,11 @@ function configureOrigin(request) {
         headers['Access-Control-Allow-Origin'] = '*';
     } else if (isOriginAllowed(requestOrigin)) {
         headers['Access-Control-Allow-Origin'] = requestOrigin;
-        headers['Vary'] = 'Origin';
+        if (headers['Vary']) {
+            headers['Vary'] += ', Origin';
+        } else {
+            headers['Vary'] = 'Origin';
+        }
     }
 
     return headers;
@@ -156,7 +154,7 @@ function configureOrigin(request) {
  */
 function configureMethods() {
     return {
-        'Access-Control-Allow-Methods': configOptions.methods.join(','),
+        'Access-Control-Allow-Methods': configOptions.methods.join(',')
     };
 }
 
