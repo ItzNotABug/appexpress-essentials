@@ -1,6 +1,6 @@
 {
   "name": "@itznotabug/appexpress-nocookies",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A cookie remover middleware for AppExpress.",
   "author": "@itznotabug",
   "type": "module",
