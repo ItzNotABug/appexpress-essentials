@@ -28,7 +28,5 @@ const express = new AppExpress();
 // the favicon is in public dir then exclude favicon explicitly.
 express.static('public', ['favicon.ico']);
 
-// set options
-favIcon.options({ iconPath: 'icons/favicon.ico', maxCacheDays: 30 });
-express.middleware(favIcon.middleware);
+express.middleware(favIcon({ iconPath: 'icons/favicon.ico', maxCacheDays: 30 }));
 ```
