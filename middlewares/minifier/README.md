@@ -24,19 +24,16 @@ import minifier from '@itznotabug/appexpress-minifier';
 // setup
 const express = new AppExpress();
 
-// set options
-minifier.options({
-  excludes: [
-    '/excludedPath', // direct path
-    /\.txt$/, /\.css$/, // or better, use a regex
-  ],
-  htmlOptions: {
-    removeComments: true,
-    collapseWhitespace: true
-  }
-});
-
-express.middleware(minifier.middleware);
+express.middleware(minifier({
+    excludes: [
+        '/excludedPath', // direct path
+        /\.txt$/, /\.css$/ // or better, use a regex
+    ],
+    htmlOptions: {
+        removeComments: true,
+        collapseWhitespace: true
+    }
+}));
 ```
 
 Excluding a particular request -
@@ -52,4 +49,4 @@ express.get('/dashboard', (_, res) => {
 
 **Suggestion**: Middlewares in `AppExpress` are executed in the order they are added, if you use multiple middlewares,
 make sure to add this one at the end so that any content processing (if done by a middleware) is preformed on the full
-content. .
+content.

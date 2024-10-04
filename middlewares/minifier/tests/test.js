@@ -24,18 +24,13 @@ const createInterceptor = (content) => {
  * run the minifier.
  */
 const minify = async (interceptor, options = {}) => {
-    minifier.options({
+    const minifierModule = minifier({
         htmlOptions: {
             ...options,
             ...htmlMinifierOptions,
         },
     });
-    await minifier.middleware.outgoing(
-        {},
-        interceptor,
-        console.log,
-        console.error,
-    );
+    await minifierModule.outgoing({}, interceptor, console.log, console.error);
 };
 
 describe(`Minification Test`, () => {

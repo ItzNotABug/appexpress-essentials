@@ -2,30 +2,21 @@ import { minify as htmlMinifier } from 'html-minifier-terser';
 
 const configOptions = { excludedPaths: [], htmlMinifierOptions: {} };
 
-export default {
-    /**
-     * Sets options for the middleware.
-     *
-     * @param {Object} options - Configuration options.
-     * @param {(string|RegExp)[]} [options.excludes=[]] - Paths to exclude.
-     * Supports strings and regular expressions.
-     * Minification won't be applied if a path matches any one in excluded paths.
-     * @param {Object} [options.htmlOptions={}] - HTML minifier options.
-     */
-    options: ({ excludes = [], htmlOptions = {} }) => {
-        configOptions.excludedPaths = excludes;
-        configOptions.htmlMinifierOptions = htmlOptions;
-    },
+/**
+ * Middleware that minifies content.
+ *
+ * @param {Object} options - Configuration options.
+ * @param {(string|RegExp)[]} [options.excludes=[]] - Paths to exclude.
+ * Supports strings and regular expressions.
+ * Minification won't be applied if a path matches any one in excluded paths.
+ * @param {Object} [options.htmlOptions={}] - HTML minifier options.
+ */
+export default function (options = {}) {
+    const { excludes = [], htmlOptions = {} } = options;
+    configOptions.excludedPaths = excludes;
+    configOptions.htmlMinifierOptions = htmlOptions;
 
-    /**
-     * Middleware that minifies content.
-     *
-     * @param {Object} request - The `RequestHandler` object.
-     * @param {Object} interceptor - The `ResponseInterceptor` object.
-     * @param {function(string)} log - Function to log debug message.
-     * @param {function(string)} error - Function to log error message.
-     */
-    middleware: {
+    return {
         outgoing: async (request, interceptor, _, error) => {
             try {
                 await checkAndMinify(request, interceptor);
@@ -33,8 +24,8 @@ export default {
                 error(`Unable to minify the content, ${err.message}`);
             }
         },
-    },
-};
+    };
+}
 
 /**
  * Check for excluded paths and minify the content if required.
