@@ -11,6 +11,26 @@ const configOptions = {
 };
 
 /**
+ * Check if a given URL has a cached response in memory.
+ *
+ * @param {string} url - The URL to check for a cache response.
+ * @returns {boolean} True if a memory cache exists for the URL, false otherwise.
+ */
+export const hasCache = (url) => !!memoryCache.get(url);
+
+/**
+ * Clear cache for a given url.
+ *
+ * @param {string} url - The URL for which to remove the cache.
+ */
+export const clearCache = (url) => memoryCache.remove(url);
+
+/**
+ * Clears all cached responses in the memory.
+ */
+export const clearAllCache = () => memoryCache.clear();
+
+/**
  * Middleware that serves cached responses.
  *
  * **Note: The responses are cached in memory after the first request, up until the function container is removed.**
@@ -20,9 +40,8 @@ const configOptions = {
  * Caching won't be applied if a path matches any one in excluded paths.
  * @param {number} [timeout=300000] - Cache expiry in milliseconds. Default 5 minutes. Pass `0` for no expiry!
  * @param {boolean} [cacheControl=true] - Should add a `cache-control` header. Default true. This header is not overridden if one already exists.
- * @returns {{ hasCache: function, clearCache: function, clearAllCache: function }}
  */
-export default function ({
+export function createApiCache({
     excludes = [],
     timeout = 300000,
     cacheControl = true,
@@ -32,27 +51,6 @@ export default function ({
     configOptions.cacheControl = cacheControl;
 
     return {
-        /**
-         * Check if a given URL has a cached response in memory.
-         *
-         * @param {string} url - The URL to check for a cache response.
-         * @returns {boolean} True if a memory cache exists for the URL, false otherwise.
-         */
-        hasCache: (url) => !!memoryCache.get(url),
-
-        /**
-         * Clear cache for a given url.
-         *
-         * @param {string} url - The URL for which to remove the cache.
-         */
-        clearCache: (url) => memoryCache.remove(url),
-
-        /**
-         * Clears all cached responses in the memory.
-         */
-        clearAllCache: () => memoryCache.clear(),
-
-        // internal middleware methods.
         incoming: (request, response) => {
             serveCacheIfAvailable(request, response);
         },

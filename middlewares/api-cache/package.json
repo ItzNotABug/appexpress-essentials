@@ -1,6 +1,6 @@
 {
   "name": "@itznotabug/appexpress-apicache",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A api caching middleware for AppExpress.",
   "author": "@itznotabug",
   "type": "module",
