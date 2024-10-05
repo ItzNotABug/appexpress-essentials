@@ -23,23 +23,21 @@ npm install @itznotabug/appexpress-apicache
 ```javascript
 // import
 import AppExpress from '@itznotabug/appexpress';
-import apiCache from '@itznotabug/appexpress-apicache';
+import * as cache from '@itznotabug/appexpress-apicache';
 
 // setup
 const express = new AppExpress();
 
-// set options
-const cacheModule = apiCache({
+express.middleware(cache.createApiCache({
     excludes: ['/admin'],
-    timeout: 1000 * 60 * 5 // 5 minutes, use 0 for no expiry!
-});
-express.middleware(cacheModule);
+    timeout: 1000 * 60 * 5 // 5 minutes, use 0 for no expiry! 
+}));
 ```
 
 ### Excluding a particular request -
 
 ```javascript
-express.get('/user/payment', async (req, res) => {
+express.get('/user/paymentMethods', async (req, res) => {
   const user = await sdk.getUser(req);
   const paymentMethods = await sdk.getPaymentMethods(user);
 
@@ -64,7 +62,7 @@ express.get('/user/code', async (req, res) => {
 
 ```javascript
 express.get('/search/results', async (req, res) => {
-  if (cacheModule.hasCache(req.url)) {
+  if (cache.hasCache(req.url)) {
     res.empty();
     return;
   }
@@ -81,8 +79,8 @@ express.get('/search/results', async (req, res) => {
 ### Clear a cache for url or all cache
 
 ```javascript
-cacheModule.clearCache(url);
+cache.clearCache(url);
 
 // remove all
-cacheModule.clearAllCache();
+cache.clearAllCache();
 ```
